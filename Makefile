@@ -6,6 +6,10 @@ NAME = philo
 FILES = \
 	src/ft_print_utils.c \
 	src/ft_libft.c \
+	src/ft_itoa.c \
+	src/ft_putnbr_fd.c \
+	src/ft_time.c \
+	src/ft_philo.c \
 	src/main.c \
 
 OBJS = ${FILES:.c=.o}
@@ -18,7 +22,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-clean: $(OBJS)
+clean:
 	rm -f $(OBJS)
 
 fclean: clean
