@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:28:50 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/09/16 15:00:09 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:35:55 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 void	*myThread(void *p)
 {
-	sleep(1);
 	t_philo	*philo;
 	char	*msg;
 
+	sleep(1);
 	philo = (t_philo *)p;
+	if (!philo)
+		return (ft_debuglog("Philo not passed to routine function\n", RED), NULL);
 	msg = ft_strjoin("Hello from thread: ", philo->index);
 	ft_debuglog_thread(philo, msg, CYAN);
 	ft_debuglog_thread(philo, "\n", NULL);
@@ -69,13 +71,46 @@ void	ft_free_philo(t_philo *philo)
 
 t_info	*ft_malloc_info(t_info *info)
 {
-	info = (t_info *) malloc(1 * sizeof(t_info *));
+	struct timeval	start;
+
+	gettimeofday(&start, NULL);
+	info = (t_info *) malloc(1 * sizeof(t_info));
 	if (!info)
 		return (NULL);
 	info->philos = NULL;
+	info->philos_count = 0;
 	info->time_die = 0;
 	info->time_eat = 0;
 	info->time_think = 0;
+	info->start = start;
+	return (info);
+}
+
+t_info	*ft_parse_info(t_info *info, pthread_mutex_t *pm, char *argv[])
+{
+	int		philo_count;
+	int		i;
+	t_philo	**philos;
+
+	philo_count = ft_atoi(argv[1]);
+	info->philos_count = philo_count;
+	philos = (t_philo **) malloc((philo_count + 1) * sizeof(t_philo *));
+	if (!philos)
+		return (NULL);
+	ft_debuglog("Initialized philosopher with number: ", YELLOW);
+	i = 0;
+	while (i < philo_count)
+	{
+		philos[i] = NULL;
+		philos[i] = ft_malloc_philo(philos[i], i, pm);
+		if (philos[i] == NULL)
+			return (ft_debuglog("Problem with philo malloc\n", RED), NULL);
+		i++;
+	}
+	ft_debuglog("\nPhilos are malloced\n", YELLOW);
+	philos[i] = NULL;
+	info->philos = philos;
+	ft_debuglog("Info was parsed\n", YELLOW);
 	return (info);
 }
 
@@ -92,40 +127,37 @@ int	main(int argc, char *argv[])
 	pthread_mutex_init(print_mutex, NULL);
 	ft_debuglog("Print mutex is initialized\n", YELLOW);
 
+	t_info	*info;
+	info = NULL;
+	info = ft_malloc_info(info);
+	if (!info)
+		return (ft_debuglog("Something wrong with ft_malloc_info\n", RED), EXIT_FAILURE);
+	info = ft_parse_info(info, print_mutex, argv);
+	if (!info)
+		return (ft_debuglog("Something wrong with ft_parse_info\n", RED), EXIT_FAILURE);
 
-	int number_philos = atoi(argv[1]);
 	int	i = 0;
-	t_philo	**philos;
-	philos = (t_philo **) malloc(number_philos * sizeof(t_philo *));
-	ft_debuglog("Initialized philo with index: ", YELLOW);
-	while (i < number_philos)
+	while (i < info->philos_count)
 	{
-		philos[i] = NULL;
-		philos[i] = ft_malloc_philo(philos[i], i, print_mutex);
-		if (philos[i] == NULL)
-			return (ft_debuglog("Problem with philo malloc\n", RED), EXIT_FAILURE);
+		ft_run_thread(info->philos[i]);
 		i++;
 	}
-
-	ft_debuglog("\nPhilos are malloced\n", YELLOW);
-
-	for (int i = 0; i < number_philos; i++)
-		ft_run_thread(philos[i]);
 
 	pthread_mutex_lock(print_mutex);
 	ft_debuglog("Philos thread are running\n", YELLOW);
 	pthread_mutex_unlock(print_mutex);
 
-	for (int i = 0; i < number_philos; i++)
-		ft_join_thread(philos[i]->thread);
+	for (int i = 0; i < info->philos_count; i++)
+		ft_join_thread(info->philos[i]->thread);
 
 	ft_debuglog("Philos thread are joined\n", YELLOW);
 
-	for (int i = 0; i < number_philos; i++)
-		ft_free_philo(philos[i]);
+	for (int i = 0; i < info->philos_count; i++)
+		ft_free_philo(info->philos[i]);
 
 	free(print_mutex);
-	free(philos);
+	free(info->philos);
+	free(info);
 
 	ft_debuglog("Philos are freed\n", YELLOW);
 

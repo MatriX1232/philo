@@ -7,6 +7,7 @@ FILES = \
 	src/ft_print_utils.c \
 	src/ft_libft.c \
 	src/ft_itoa.c \
+	src/ft_atoi.c \
 	src/ft_putnbr_fd.c \
 	src/ft_time.c \
 	src/ft_philo.c \

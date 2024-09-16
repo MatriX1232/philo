@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:21:27 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/09/16 14:57:52 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/09/16 15:48:52 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_info
 	int				time_think;
 	int				time_die;
 	t_philo			**philos;
+	int				philos_count;
 	struct timeval	start;
 }	t_info;
 
