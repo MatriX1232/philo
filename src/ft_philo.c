@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:32:56 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/09/16 21:59:55 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/09/16 23:44:17 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,7 @@ void	ft_print_status(t_philo *philo, char *msg, char *color)
 	cur = get_timestamp() - philo->start;
 	pthread_mutex_lock(philo->print_mutex);
 	if (!is_dead(philo))
-	{
-		write(1, color, 5);
-		printf("%ld %d %s\n", cur, philo->philo_index, msg);
-		write(1, END, 5);
-	}
+		printf("%s%ld %d %s%s\n", color, cur, philo->philo_index, msg, END);
 	pthread_mutex_unlock(philo->print_mutex);
 }
 
@@ -44,7 +40,9 @@ void	ft_eat(t_philo *philo)
 	if (philo->left_fork != NULL && philo->right_fork != NULL)
 	{
 		pthread_mutex_lock(philo->left_fork);
+		ft_print_status(philo, "has taken a fork", CYAN);
 		pthread_mutex_lock(philo->right_fork);
+		ft_print_status(philo, "has taken a fork", CYAN);
 	}
 	else
 	{
@@ -55,7 +53,7 @@ void	ft_eat(t_philo *philo)
 		free(msg);
 		return ;
 	}
-	if (philo->last_meal - get_timestamp() > philo->data->time_die)
+	if (philo->last_meal - get_timestamp() >= philo->data->time_die)
 	{
 		ft_print_status(philo, "died", RED);
 		pthread_mutex_lock(philo->die_mutex);
@@ -70,12 +68,12 @@ void	ft_eat(t_philo *philo)
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 	philo->last_meal = get_timestamp();
+	philo->meal_count++;
 }
 
 void	ft_think(t_philo *philo)
 {
 	ft_print_status(philo, "is thinking", YELLOW);
-	pthread_mutex_unlock(philo->print_mutex);
 	ft_usleep(philo->data->time_eat);
 }
 

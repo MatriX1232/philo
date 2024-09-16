@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:28:50 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/09/16 21:16:43 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/09/16 23:38:54 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@ void	*myThread(void *p)
 	if (!philo)
 		return (ft_debuglog("Philo not passed to routine function\n", RED), NULL);
 	if (philo->philo_index % 2 == 0)
-		usleep(philo->data->time_eat);
+		ft_usleep(philo->data->time_eat);
 	while (!is_dead(philo))
 	{
+		if (philo->meal_count > philo->data->times_must_eat && philo->data->times_must_eat != -1)
+			break ;
 		ft_eat(philo);
-		ft_think(philo);
 		ft_sleep(philo);
+		// ft_think(philo);
 	}
 	return (NULL);
 }

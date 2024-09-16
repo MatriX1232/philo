@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 20:02:13 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/09/16 21:44:46 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/09/16 23:34:49 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_info	*ft_malloc_info(t_info *info)
 	info->time_die = 0;
 	info->time_eat = 0;
 	info->times_must_eat = 0;
+	info->time_sleep = 0;
 	info->start = get_timestamp();
 	return (info);
 }
@@ -139,6 +140,7 @@ t_info	*ft_parse_info(t_info *info, pthread_mutex_t *pm, char *argv[])
 		philos[i]->data->time_die = info->time_die;
 		philos[i]->data->time_eat = info->time_eat;
 		philos[i]->data->times_must_eat = info->times_must_eat;
+		philos[i]->data->time_sleep = info->time_sleep;
 		i++;
 	}
 	ft_debuglog("\nPhilos are malloced\n", YELLOW);
