@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iinclude
+CFLAGS = -Wall -Wextra -Werror -Iinclude -g
 
 NAME = philo
 
@@ -11,6 +11,7 @@ FILES = \
 	src/ft_putnbr_fd.c \
 	src/ft_time.c \
 	src/ft_philo.c \
+	src/ft_init.c \
 	src/main.c \
 
 OBJS = ${FILES:.c=.o}

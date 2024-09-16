@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:21:27 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/09/16 15:48:52 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/09/16 21:44:52 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,19 @@
 # include <unistd.h>
 # include <pthread.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include <sys/time.h>
 # include <stdbool.h>
 # include "colors.h"
+
+typedef struct s_data
+{
+	int				time_eat;
+	int				time_sleep;
+	int				time_die;
+	int				times_must_eat;
+	int				philos_count;
+}	t_data;
 
 typedef struct s_philo
 {
@@ -26,20 +36,28 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*print_mutex;
+	pthread_mutex_t	*die_mutex;
+	bool			is_dead;
+	int				meal_count;
 	int				philo_index;
 	char			*index;
+	long			start;
+	long			last_meal;
+	t_data			*data;
+
 }	t_philo;
 
 typedef struct s_info
 {
 	int				time_eat;
-	int				time_think;
+	int				time_sleep;
 	int				time_die;
+	int				times_must_eat;
 	t_philo			**philos;
+	pthread_mutex_t	**forks;
 	int				philos_count;
-	struct timeval	start;
+	long			start;
 }	t_info;
-
 
 //	FT_LIBFT.c
 int		ft_strlen(char *str);
@@ -56,6 +74,21 @@ void	ft_debuglog_thread(t_philo	*philo, char *msg, char *color);
 void	ft_debuglog(char *msg, char *color);
 
 //	FT_TIME.c
-unsigned int	ft_get_time(t_info *info);
+// unsigned int	ft_get_time(struct timeval start);
+long	get_timestamp(void);
+void	ft_usleep(long int ms);
+
+//	FT_INIT.c
+t_philo	*ft_malloc_philo(t_philo *philo, int philo_index, pthread_mutex_t *pm);
+t_info	*ft_malloc_info(t_info *info);
+pthread_mutex_t	**ft_malloc_forks(t_info *info);
+void	ft_assign_forks(t_info *info);
+t_info	*ft_parse_info(t_info *info, pthread_mutex_t *pm, char *argv[]);
+
+//	FT_PHILO.c
+void	ft_eat(t_philo *philo);
+void	ft_think(t_philo *philo);
+void	ft_sleep(t_philo *philo);
+bool	is_dead(t_philo *philo);
 
 #endif
