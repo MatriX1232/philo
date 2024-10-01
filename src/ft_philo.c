@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:32:56 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/01 17:25:29 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/01 18:28:45 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,14 @@ static int	ft_am_i_hungrier(t_philo *philo, t_mix *mix)
 	last_current = philo->last_meal;
 	last_prev = ft_get_previous_last_meal(philo->philo_index, mix->info);
 	last_next = ft_get_next_last_meal(philo->philo_index, mix->info);
-	if (last_current < last_prev)
-		return (0);
-	else if (last_current < last_next)
-		return (0);
-	return (1);
+	if (last_current <= last_prev && last_current <= last_next)
+		return (1); // I am hungrier
+	return (0); // Not hungrier
 }
 
 static void	ft_lock_forks(t_philo *philo)
 {
-	if (philo->philo_index % 2 == 0)
+	if ((philo->philo_index + 1) % 2 == 0)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		ft_print_status(philo, "has taken a fork", CYAN);
