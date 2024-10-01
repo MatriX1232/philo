@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 20:02:13 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/01 12:46:53 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:35:16 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	ft_assign_forks(t_info *info)
 		}
 		i++;
 	}
-	ft_debuglog("Forks are assigned\n", YELLOW);
+	ft_debuglog("Forks were assigned\n", YELLOW);
 }
 
 t_info	*ft_parse_info(t_info *info, pthread_mutex_t *pm, char *argv[])
