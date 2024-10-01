@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:21:27 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/09/16 21:44:52 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:01:31 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_philo
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	*print_mutex;
 	pthread_mutex_t	*die_mutex;
+	pthread_mutex_t	*meal_mutex;
 	bool			is_dead;
 	int				meal_count;
 	int				philo_index;
@@ -55,9 +56,17 @@ typedef struct s_info
 	int				times_must_eat;
 	t_philo			**philos;
 	pthread_mutex_t	**forks;
+	pthread_mutex_t	*somebody_die_mutex;
+	bool			somebody_die;
 	int				philos_count;
 	long			start;
 }	t_info;
+
+typedef struct s_mix
+{
+	t_info			*info;
+	t_philo			*philo;
+}	t_mix;
 
 //	FT_LIBFT.c
 int		ft_strlen(char *str);
@@ -76,7 +85,7 @@ void	ft_debuglog(char *msg, char *color);
 //	FT_TIME.c
 // unsigned int	ft_get_time(struct timeval start);
 long	get_timestamp(void);
-void	ft_usleep(long int ms);
+void	ft_usleep(t_philo *philo, long int ms);
 
 //	FT_INIT.c
 t_philo	*ft_malloc_philo(t_philo *philo, int philo_index, pthread_mutex_t *pm);
@@ -86,9 +95,14 @@ void	ft_assign_forks(t_info *info);
 t_info	*ft_parse_info(t_info *info, pthread_mutex_t *pm, char *argv[]);
 
 //	FT_PHILO.c
-void	ft_eat(t_philo *philo);
+void	ft_eat(t_philo *philo, t_mix *mix);
 void	ft_think(t_philo *philo);
 void	ft_sleep(t_philo *philo);
-bool	is_dead(t_philo *philo);
+bool	is_dead(t_philo *philo, t_info *info);
+void	ft_philo_died(t_philo *philo);
+void	ft_print_status(t_philo *philo, char *msg, char *color);
+
+//	FT_DEATH.c
+void	*death_routine(void *v);
 
 #endif

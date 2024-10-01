@@ -12,6 +12,7 @@ FILES = \
 	src/ft_time.c \
 	src/ft_philo.c \
 	src/ft_init.c \
+	src/ft_death.c \
 	src/main.c \
 
 OBJS = ${FILES:.c=.o}

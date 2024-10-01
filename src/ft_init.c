@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 20:02:13 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/09/16 23:34:49 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:46:53 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ t_philo	*ft_malloc_philo(t_philo *philo, int philo_index, pthread_mutex_t *pm)
 	philo->die_mutex = (pthread_mutex_t *) malloc(1 * sizeof(pthread_mutex_t));
 	if (!philo->die_mutex)
 		return (NULL);
+	philo->meal_mutex = (pthread_mutex_t *) malloc(1 * sizeof(pthread_mutex_t));
+	if (!philo->meal_mutex)
+		return (NULL);
 	pthread_mutex_init(philo->die_mutex, NULL);
+	pthread_mutex_init(philo->meal_mutex, NULL);
 	philo->philo_index = philo_index;
 	philo->print_mutex = pm;
 	philo->is_dead = false;
@@ -56,6 +60,11 @@ t_info	*ft_malloc_info(t_info *info)
 	info->times_must_eat = 0;
 	info->time_sleep = 0;
 	info->start = get_timestamp();
+	info->somebody_die_mutex = (pthread_mutex_t *) malloc(1 * sizeof(pthread_mutex_t));
+	if (!info->somebody_die_mutex)
+		return (NULL);
+	pthread_mutex_init(info->somebody_die_mutex, NULL);
+	info->somebody_die = false;
 	return (info);
 }
 

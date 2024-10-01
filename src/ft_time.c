@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:45:05 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/09/16 23:40:59 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:35:37 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,18 @@ long	get_timestamp(void)
 	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
 }
 
-void	ft_usleep(long int ms)
+// 		if (time_last_meal > philo->data->time_die + 6)	// 6 is a threasold number
+void	ft_usleep(t_philo *philo, long int ms)
 {
 	long int	start_time;
+	long		time_last_meal;
 
 	start_time = get_timestamp();
 	while ((get_timestamp() - start_time) < ms)
-		usleep(100);
+	{
+		time_last_meal = get_timestamp() - philo->start - philo->last_meal;
+		if (time_last_meal > philo->data->time_die)
+			return (ft_philo_died(philo));
+		usleep(1000);
+	}
 }
