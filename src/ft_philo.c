@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:32:56 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/01 18:28:45 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/01 20:09:54 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static int	ft_am_i_hungrier(t_philo *philo, t_mix *mix)
 
 static void	ft_lock_forks(t_philo *philo)
 {
-	if ((philo->philo_index + 1) % 2 == 0)
+	if ((philo->philo_index) % 2 == 0)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		ft_print_status(philo, "has taken a fork", CYAN);
@@ -98,6 +98,7 @@ static void	ft_lock_forks(t_philo *philo)
 	}
 	else
 	{
+		ft_usleep(philo, 2);
 		pthread_mutex_lock(philo->right_fork);
 		ft_print_status(philo, "has taken a fork", CYAN);
 		pthread_mutex_lock(philo->left_fork);
@@ -115,7 +116,7 @@ static void	ft_take_forks(t_philo *philo, t_mix *mix)
 			break ;
 		}
 		else
-			ft_usleep(philo, philo->data->time_eat / 10);
+			ft_usleep(philo, 1);
 	}
 }
 
@@ -128,16 +129,17 @@ void	ft_philo_died(t_philo *philo)
 
 void	ft_eat(t_philo *philo, t_mix *mix)
 {
-	// long	time_last_meal;
-
-	// time_last_meal = get_timestamp() - philo->start - philo->last_meal;
-	// if (time_last_meal > philo->data->time_die)
-	// 	return (ft_philo_died(philo));
 	ft_take_forks(philo, mix);
 	pthread_mutex_lock(philo->meal_mutex);
 	philo->last_meal = get_timestamp() - philo->start;
+	if (philo->philo_index % 2 != 0)
+		philo->last_meal -= 2;
 	pthread_mutex_unlock(philo->meal_mutex);
 	ft_print_status(philo, "is eating", GREEN);
+	// if (philo->philo_index % 2 != 0)
+	// 	ft_usleep(philo, philo->data->time_eat - 2);
+	// else
+	// 	ft_usleep(philo, philo->data->time_eat);
 	ft_usleep(philo, philo->data->time_eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
