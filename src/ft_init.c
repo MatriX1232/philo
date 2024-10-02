@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 20:02:13 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/01 19:44:19 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/02 14:07:26 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,21 +96,8 @@ void	ft_assign_forks(t_info *info)
 	i = 0;
 	while (i < info->philos_count)
 	{
-		if (i == 0)
-		{
-			info->philos[0]->left_fork = info->forks[info->philos_count - 1];
-			info->philos[0]->right_fork = info->forks[0];
-		}
-		else if (i == info->philos_count - 1)
-		{
-			info->philos[i]->left_fork = info->forks[i - 1];
-			info->philos[i]->right_fork = info->forks[0];
-		}
-		else
-		{
-			info->philos[i]->left_fork = info->forks[i];
-			info->philos[i]->right_fork = info->forks[i + 1];
-		}
+		info->philos[i]->left_fork = info->forks[i];
+		info->philos[i]->right_fork = info->forks[(i + 1) % info->philos_count];
 		i++;
 	}
 	ft_debuglog("Forks were assigned\n", YELLOW);

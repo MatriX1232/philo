@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:21:27 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/01 13:01:31 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:42:34 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,13 @@ void	ft_print_status(t_philo *philo, char *msg, char *color);
 
 //	FT_DEATH.c
 void	*death_routine(void *v);
+
+//	FT_FORKS.c
+void	ft_take_forks(t_philo *philo, t_mix *mix);
+
+//	FT_MEALS.c
+long	ft_get_last_meal(t_philo *philo);
+long	ft_get_previous_last_meal(int current, t_info *info);
+long	ft_get_next_last_meal(int current, t_info *info);
 
 #endif

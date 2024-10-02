@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:32:56 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/01 20:09:54 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/02 13:30:29 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,85 +41,6 @@ void	ft_print_status(t_philo *philo, char *msg, char *color)
 	pthread_mutex_unlock(philo->print_mutex);
 }
 
-long	ft_get_last_meal(t_philo *philo)
-{
-	long	last_meal;
-
-	pthread_mutex_lock(philo->meal_mutex);
-	last_meal = philo->last_meal;
-	pthread_mutex_unlock(philo->meal_mutex);
-	return (last_meal);
-}
-
-long	ft_get_previous_last_meal(int current, t_info *info)
-{
-	int		previous;
-
-	if (current == 0)
-		previous = info->philos_count - 1;
-	else
-		previous = current - 1;
-	return (ft_get_last_meal(info->philos[previous]));
-}
-
-long	ft_get_next_last_meal(int current, t_info *info)
-{
-	int		next;
-
-	if (current == info->philos_count - 1)
-		next = 0;
-	else
-		next = current + 1;
-	return (ft_get_last_meal(info->philos[next]));
-}
-
-static int	ft_am_i_hungrier(t_philo *philo, t_mix *mix)
-{
-	long	last_current;
-	long	last_prev;
-	long	last_next;
-
-	last_current = philo->last_meal;
-	last_prev = ft_get_previous_last_meal(philo->philo_index, mix->info);
-	last_next = ft_get_next_last_meal(philo->philo_index, mix->info);
-	if (last_current <= last_prev && last_current <= last_next)
-		return (1); // I am hungrier
-	return (0); // Not hungrier
-}
-
-static void	ft_lock_forks(t_philo *philo)
-{
-	if ((philo->philo_index) % 2 == 0)
-	{
-		pthread_mutex_lock(philo->left_fork);
-		ft_print_status(philo, "has taken a fork", CYAN);
-		pthread_mutex_lock(philo->right_fork);
-		ft_print_status(philo, "has taken a fork", CYAN);
-	}
-	else
-	{
-		ft_usleep(philo, 2);
-		pthread_mutex_lock(philo->right_fork);
-		ft_print_status(philo, "has taken a fork", CYAN);
-		pthread_mutex_lock(philo->left_fork);
-		ft_print_status(philo, "has taken a fork", CYAN);
-	}
-}
-
-static void	ft_take_forks(t_philo *philo, t_mix *mix)
-{
-	while (!is_dead(philo, mix->info))
-	{
-		if (ft_am_i_hungrier(philo, mix))
-		{
-			ft_lock_forks(philo);
-			break ;
-		}
-		else
-			ft_usleep(philo, 1);
-	}
-}
-
 void	ft_philo_died(t_philo *philo)
 {
 	pthread_mutex_lock(philo->die_mutex);
@@ -136,10 +57,6 @@ void	ft_eat(t_philo *philo, t_mix *mix)
 		philo->last_meal -= 2;
 	pthread_mutex_unlock(philo->meal_mutex);
 	ft_print_status(philo, "is eating", GREEN);
-	// if (philo->philo_index % 2 != 0)
-	// 	ft_usleep(philo, philo->data->time_eat - 2);
-	// else
-	// 	ft_usleep(philo, philo->data->time_eat);
 	ft_usleep(philo, philo->data->time_eat);
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);

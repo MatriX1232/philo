@@ -13,6 +13,8 @@ FILES = \
 	src/ft_philo.c \
 	src/ft_init.c \
 	src/ft_death.c \
+	src/ft_forks.c \
+	src/ft_meals.c \
 	src/main.c \
 
 OBJS = ${FILES:.c=.o}
