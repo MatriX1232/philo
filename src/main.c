@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:28:50 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/02 16:42:55 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:48:02 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@ void	*philosopher_routine(void *v)
 	mix = (t_mix *)v;
 	if (!mix)
 		return (ft_debuglog("MIX not passed to routine function\n", RED), NULL);
+	if (mix->info->philos_count == 1)
+	{
+		ft_print_status(mix->philo, mix->info, "is thinking", YELLOW);
+		ft_print_status(mix->philo, mix->info, "has taken a fork", CYAN);
+		ft_usleep(mix->philo, mix->info->time_die);
+		ft_philo_died(mix->philo);
+		return (NULL);
+	}
 	philo = mix->philo;
 	while (!is_dead(philo, mix->info))
 	{
@@ -43,11 +51,6 @@ void	ft_run_thread(t_philo *philo, t_info *info)
 	mix->philo = philo;
 	mix->info = info;
 	pthread_create(philo->thread, NULL, philosopher_routine, mix);
-}
-
-void	ft_join_thread(pthread_t *thread)
-{
-	pthread_join(*thread, NULL);
 }
 
 void	ft_free_philo(t_philo *philo)
@@ -100,7 +103,6 @@ int	main(int argc, char *argv[])
 		i++;
 	}
 
-
 	for (int i = 0; i < info->philos_count; i++)
 		pthread_join(*info->philos[i]->thread, NULL);
 
@@ -110,6 +112,7 @@ int	main(int argc, char *argv[])
 
 	for (int i = 0; i < info->philos_count; i++)
 		ft_free_philo(info->philos[i]);
+
 	free(info->philos);
 	pthread_mutex_destroy(print_mutex);
 	pthread_mutex_destroy(info->somebody_die_mutex);
