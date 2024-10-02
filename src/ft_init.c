@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 20:02:13 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/02 14:07:26 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:19:09 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ t_philo	*ft_malloc_philo(t_philo *philo, int philo_index, pthread_mutex_t *pm)
 	num = ft_itoa(philo->philo_index);
 	philo->index = num;
 	msg = ft_strjoin(" / ", num);
+	write(1, BOLD, ft_strlen(BOLD));
 	ft_debuglog_thread(philo, msg, GREEN);
 	free(msg);
 	return (philo);

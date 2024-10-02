@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:28:50 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/02 15:19:08 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:08:19 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	main(int argc, char *argv[])
 		return (ft_debuglog("Something wrong with ft_parse_info\n", RED), EXIT_FAILURE);
 	info->print_mutex = print_mutex;
 
+	pthread_mutex_lock(print_mutex);
 	pthread_t	*death_thread;
 	death_thread = (pthread_t *) malloc(1 * sizeof(pthread_t));
 	if (!death_thread)
