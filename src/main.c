@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:28:50 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/02 16:08:19 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:42:55 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ void	ft_free_philo(t_philo *philo)
 	free(philo->index);
 	free(philo->data);
 	pthread_mutex_destroy(philo->die_mutex);
+	pthread_mutex_destroy(philo->meal_mutex);
 	free(philo->die_mutex);
+	free(philo->meal_mutex);
 	free(philo);
 }
 
@@ -108,15 +110,12 @@ int	main(int argc, char *argv[])
 
 	for (int i = 0; i < info->philos_count; i++)
 		ft_free_philo(info->philos[i]);
-
+	free(info->philos);
 	pthread_mutex_destroy(print_mutex);
 	pthread_mutex_destroy(info->somebody_die_mutex);
+	free(info->somebody_die_mutex);
 	free(print_mutex);
-	free(info->philos);
-	free(info);
 	free(death_thread);
-
-
 	i = 0;
 	while (i < info->philos_count)
 	{
@@ -124,6 +123,8 @@ int	main(int argc, char *argv[])
 		free(info->forks[i]);
 		i++;
 	}
+	free(info->forks);
+	free(info);
 
 
 	ft_debuglog("Philos are freed\n", YELLOW);

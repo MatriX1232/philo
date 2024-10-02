@@ -6,11 +6,21 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:33:25 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/02 16:19:31 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/02 16:34:05 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
+
+// static void	ft_free_forks(t_info *info)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (info->forks[i])
+// 		free(info->forks[i++]);
+// 	free(info->forks);
+// }
 
 static void	ft_exit_all(t_info *info)
 {
