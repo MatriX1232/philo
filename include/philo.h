@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:21:27 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/02 12:42:34 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:19:19 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_info
 	t_philo			**philos;
 	pthread_mutex_t	**forks;
 	pthread_mutex_t	*somebody_die_mutex;
+	pthread_mutex_t	*print_mutex;
 	bool			somebody_die;
 	int				philos_count;
 	long			start;
@@ -96,11 +97,11 @@ t_info	*ft_parse_info(t_info *info, pthread_mutex_t *pm, char *argv[]);
 
 //	FT_PHILO.c
 void	ft_eat(t_philo *philo, t_mix *mix);
-void	ft_think(t_philo *philo);
-void	ft_sleep(t_philo *philo);
+void	ft_think(t_philo *philo, t_info *info);
+void	ft_sleep(t_philo *philo, t_info *info);
 bool	is_dead(t_philo *philo, t_info *info);
 void	ft_philo_died(t_philo *philo);
-void	ft_print_status(t_philo *philo, char *msg, char *color);
+void	ft_print_status(t_philo *philo, t_info *info, char *msg, char *color);
 
 //	FT_DEATH.c
 void	*death_routine(void *v);

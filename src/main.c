@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:28:50 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/02 14:00:23 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:19:08 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	*philosopher_routine(void *v)
 	{
 		if (is_dead(philo, mix->info) || (philo->meal_count > philo->data->times_must_eat && philo->data->times_must_eat != -1))
 			pthread_exit(NULL);
-		ft_think(philo);
+		ft_think(philo, mix->info);
 		ft_eat(philo, mix);
-		ft_sleep(philo);
+		ft_sleep(philo, mix->info);
 	}
 	free(mix);
 	return (NULL);
@@ -80,14 +80,13 @@ int	main(int argc, char *argv[])
 	info = ft_parse_info(info, print_mutex, argv);
 	if (!info)
 		return (ft_debuglog("Something wrong with ft_parse_info\n", RED), EXIT_FAILURE);
-
+	info->print_mutex = print_mutex;
 
 	pthread_t	*death_thread;
 	death_thread = (pthread_t *) malloc(1 * sizeof(pthread_t));
 	if (!death_thread)
 		return (ft_debuglog("Death thread not allocated\n", RED), EXIT_FAILURE);
 	pthread_create(death_thread, NULL, death_routine, info);
-
 
 	info->start = get_timestamp();
 	int	i = 0;

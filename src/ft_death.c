@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:33:25 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/02 14:54:45 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:30:31 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ static void	ft_exit_all(t_info *info)
 	int	i;
 
 	i = 0;
-	pthread_mutex_lock(info->philos[0]->print_mutex);
+	// pthread_mutex_lock(info->print_mutex);
 	printf("%sPhilosophers are exiting: %s", YELLOW, GREEN);
 	while (i < info->philos_count)
 	{
-		pthread_detach(*info->philos[i]->thread);
-		pthread_exit(info->philos[i]->thread);
-		printf("/ %d ", i);
+		// pthread_detach(*info->philos[i]->thread);
+		// pthread_exit(info->philos[i]->thread);
+		printf(" / %d", i);
 		i++;
 	}
 	printf("%s\n", END);
-	pthread_mutex_unlock(info->philos[0]->print_mutex);
+	pthread_mutex_unlock(info->print_mutex);
 }
 
 int	ft_check_philo_meals(t_info *info)
@@ -45,7 +45,7 @@ int	ft_check_philo_meals(t_info *info)
 	}
 	if (finished == info->philos_count)
 	{
-		ft_print_status(info->philos[0], "All philosophers have eaten enough", GREEN);
+		ft_print_status(info->philos[0], info, "All philosophers have eaten enough", GREEN);
 		return (1);
 	}
 	else
@@ -57,11 +57,12 @@ void	*death_routine(void *v)
 	t_info	*info;
 	t_philo	*philo;
 	int		i;
+	long	cur;
 
 	info = (t_info *)v;
-	printf("%s╔╦╗╔═╗╔═╗╔╦╗╦ ╦  ╦╔═╗  ╦ ╦╔═╗╔╦╗╔═╗╦ ╦╦╔╗╔╔═╗\n", RED);
-	printf(" ║║║╣ ╠═╣ ║ ╠═╣  ║╚═╗  ║║║╠═╣ ║ ║  ╠═╣║║║║║ ╦\n");
-	printf("═╩╝╚═╝╩ ╩ ╩ ╩ ╩  ╩╚═╝  ╚╩╝╩ ╩ ╩ ╚═╝╩ ╩╩╝╚╝╚═╝\n%s", END);
+	printf("%s╔╦╗ ╔═╗ ╔═╗ ╔╦╗ ╦ ╦    ╦ ╔═╗    ╦ ╦ ╔═╗ ╔╦╗ ╔═╗ ╦ ╦ ╦ ╔╗╔ ╔═╗\n", RED);
+	printf(" ║║ ║╣  ╠═╣  ║  ╠═╣    ║ ╚═╗    ║║║ ╠═╣  ║  ║   ╠═╣ ║ ║║║ ║ ╦\n");
+	printf("═╩╝ ╚═╝ ╩ ╩  ╩  ╩ ╩    ╩ ╚═╝    ╚╩╝ ╩ ╩  ╩  ╚═╝ ╩ ╩ ╩ ╝╚╝ ╚═╝\n%s", END);
 	while (1)
 	{
 		// if (ft_check_philo_meals(info))
@@ -72,7 +73,9 @@ void	*death_routine(void *v)
 			philo = info->philos[i];
 			if (is_dead(philo, info))
 			{
-				ft_print_status(philo, "died", RED);
+				cur = get_timestamp() - philo->start;
+				pthread_mutex_lock(philo->print_mutex);
+				printf("%s%ld %d is dead%s\n", RED, cur, philo->philo_index, END);
 				pthread_mutex_lock(info->somebody_die_mutex);
 				info->somebody_die = true;
 				pthread_mutex_unlock(info->somebody_die_mutex);
