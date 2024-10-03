@@ -1,4 +1,4 @@
-<div style="align:center">
+<div align=center>
     <img src="https://github.com/MatriX1232/philo/blob/7aa9f2a6e002f8ad500614b9963e506fd6ebe88d/philo.png">
 </div>
 
