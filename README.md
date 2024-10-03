@@ -1,5 +1,5 @@
-<div style="align:center; width:256px; height:256px">
-    <img src=https://github.com/MatriX1232/philo/blob/d3cdc2d9d9df27b53dae40a339b1c26e63b179ba/philo.png>
+<div style="align:center">
+    <img src="https://github.com/MatriX1232/philo/blob/7aa9f2a6e002f8ad500614b9963e506fd6ebe88d/philo.png">
 </div>
 
 # Philosophers
