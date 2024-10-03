@@ -1,3 +1,7 @@
+<div styles="align=center width=256px; height=256px">
+    <img src=https://github.com/MatriX1232/philo/blob/d3cdc2d9d9df27b53dae40a339b1c26e63b179ba/philo.png>
+</div>
+
 # Philosophers
 
 This project is an implementation of the classic **Dining Philosophers Problem**, designed to explore multithreading and synchronization in C. The challenge is to manage multiple philosophers sharing forks in a way that avoids deadlock, starvation, and race conditions, using pthreads and mutexes.
