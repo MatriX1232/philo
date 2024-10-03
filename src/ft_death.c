@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:33:25 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/03 15:45:08 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/04 00:20:35 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ bool	ft_is_philo_dead(t_philo *philo)
 	{
 		pthread_mutex_lock(philo->print_mutex);
 		cur = get_timestamp() - philo->start;
-		printf("%s%ld %d died%s\n", RED, cur, philo->philo_index, END);
+		printf("%s%ld %d died%s\n", RED, cur, philo->philo_index + 1, END);
 		ft_philo_died(philo);
 		return (true);
 	}
