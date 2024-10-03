@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:28:50 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/02 16:48:02 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/02 17:34:29 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	main(int argc, char *argv[])
 		return (ft_debuglog("Death thread not allocated\n", RED), EXIT_FAILURE);
 	pthread_create(death_thread, NULL, death_routine, info);
 
-	info->start = get_timestamp();
+	// info->start = get_timestamp();
 	int	i = 0;
 	while (i < info->philos_count)
 	{
@@ -128,7 +128,6 @@ int	main(int argc, char *argv[])
 	}
 	free(info->forks);
 	free(info);
-
 
 	ft_debuglog("Philos are freed\n", YELLOW);
 

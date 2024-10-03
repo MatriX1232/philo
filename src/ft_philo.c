@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 14:32:56 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/02 15:21:54 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:36:26 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ void	ft_eat(t_philo *philo, t_mix *mix)
 	ft_take_forks(philo, mix);
 	pthread_mutex_lock(philo->meal_mutex);
 	philo->last_meal = get_timestamp() - philo->start;
-	if (philo->philo_index % 2 != 0)
-		philo->last_meal -= 2;
 	pthread_mutex_unlock(philo->meal_mutex);
 	ft_print_status(philo, mix->info, "is eating", GREEN);
 	ft_usleep(philo, philo->data->time_eat);

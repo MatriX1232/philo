@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:21:27 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/02 15:19:19 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:07:03 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,48 +70,47 @@ typedef struct s_mix
 }	t_mix;
 
 //	FT_LIBFT.c
-int		ft_strlen(char *str);
-char	*ft_itoa(int n);
-int		ft_atoi(const char *nptr);
-void	*ft_calloc(size_t nmemb, size_t size);
-char	*ft_strjoin(char const *s1, char const *s2);
+int				ft_strlen(char *str);
+char			*ft_itoa(int n);
+int				ft_atoi(const char *nptr);
+void			*ft_calloc(size_t nmemb, size_t size);
+char			*ft_strjoin(char const *s1, char const *s2);
 
 //	FT_PUTNBR_FD.C
-void	ft_putnbr_fd(int n, int fd);
+void			ft_putnbr_fd(int n, int fd);
 
 // FT_PRINT_UTILS.c
-void	ft_debuglog_thread(t_philo	*philo, char *msg, char *color);
-void	ft_debuglog(char *msg, char *color);
+void			ft_debuglog_thread(t_philo	*philo, char *msg, char *color);
+void			ft_debuglog(char *msg, char *color);
 
 //	FT_TIME.c
-// unsigned int	ft_get_time(struct timeval start);
-long	get_timestamp(void);
-void	ft_usleep(t_philo *philo, long int ms);
+long			get_timestamp(void);
+void			ft_usleep(t_philo *philo, long int ms);
 
 //	FT_INIT.c
-t_philo	*ft_malloc_philo(t_philo *philo, int philo_index, pthread_mutex_t *pm);
-t_info	*ft_malloc_info(t_info *info);
+t_philo			*ft_malloc_philo(t_philo *philo, int p_idx, pthread_mutex_t *pm);
+t_info			*ft_malloc_info(t_info *info);
 pthread_mutex_t	**ft_malloc_forks(t_info *info);
-void	ft_assign_forks(t_info *info);
-t_info	*ft_parse_info(t_info *info, pthread_mutex_t *pm, char *argv[]);
+void			ft_assign_forks(t_info *info);
+t_info			*ft_parse_info(t_info *info, pthread_mutex_t *pm, char *argv[]);
 
 //	FT_PHILO.c
-void	ft_eat(t_philo *philo, t_mix *mix);
-void	ft_think(t_philo *philo, t_info *info);
-void	ft_sleep(t_philo *philo, t_info *info);
-bool	is_dead(t_philo *philo, t_info *info);
-void	ft_philo_died(t_philo *philo);
-void	ft_print_status(t_philo *philo, t_info *info, char *msg, char *color);
+void			ft_eat(t_philo *philo, t_mix *mix);
+void			ft_think(t_philo *philo, t_info *info);
+void			ft_sleep(t_philo *philo, t_info *info);
+bool			is_dead(t_philo *philo, t_info *info);
+void			ft_philo_died(t_philo *philo);
+void			ft_print_status(t_philo *philo, t_info *info, char *msg, char *c);
 
 //	FT_DEATH.c
-void	*death_routine(void *v);
+void			*death_routine(void *v);
 
 //	FT_FORKS.c
-void	ft_take_forks(t_philo *philo, t_mix *mix);
+void			ft_take_forks(t_philo *philo, t_mix *mix);
 
 //	FT_MEALS.c
-long	ft_get_last_meal(t_philo *philo);
-long	ft_get_previous_last_meal(int current, t_info *info);
-long	ft_get_next_last_meal(int current, t_info *info);
+long			ft_get_last_meal(t_philo *philo);
+long			ft_get_previous_last_meal(int current, t_info *info);
+long			ft_get_next_last_meal(int current, t_info *info);
 
 #endif
