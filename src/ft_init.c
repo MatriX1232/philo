@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 20:02:13 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/02 16:31:18 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:53:01 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_philo	*ft_malloc_philo(t_philo *philo, int philo_index, pthread_mutex_t *pm)
 	philo->print_mutex = pm;
 	philo->is_dead = false;
 	philo->meal_count = 0;
+	philo->start = 0;
 
 	num = ft_itoa(philo->philo_index);
 	philo->index = num;
@@ -133,6 +134,7 @@ t_info	*ft_parse_info(t_info *info, pthread_mutex_t *pm, char *argv[])
 		if (philos[i] == NULL)
 			return (ft_debuglog("Problem with philo malloc\n", RED), NULL);
 		philos[i]->start = info->start;
+		philos[i]->last_meal = 0;
 		philos[i]->data->philos_count = info->philos_count;
 		philos[i]->data->time_die = info->time_die;
 		philos[i]->data->time_eat = info->time_eat;

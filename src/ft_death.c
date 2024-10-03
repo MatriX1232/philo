@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:33:25 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/03 10:48:03 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:40:56 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,7 @@ static bool	ft_is_philo_dead(t_philo *philo)
 void	*death_routine(void *v)
 {
 	t_info	*info;
-	// t_philo	*philo;
 	int		i;
-	// long	cur;
 
 	info = (t_info *)v;
 	printf("%s╔╦╗ ╔═╗ ╔═╗ ╔╦╗ ╦ ╦    ╦ ╔═╗    ╦ ╦ ╔═╗ ╔╦╗ ╔═╗ ╦ ╦ ╦ ╔╗╔ ╔═╗\n", RED);
@@ -107,14 +105,6 @@ void	*death_routine(void *v)
 		{
 			if (ft_is_philo_dead(info->philos[i]))
 				return (ft_exit_all(info), NULL);
-			// philo = info->philos[i];
-			// if (is_dead(philo, info))
-			// {
-			// 	pthread_mutex_lock(philo->print_mutex);
-			// 	cur = get_timestamp() - philo->start;
-			// 	printf("%s%ld %d died%s\n", RED, cur, philo->philo_index, END);
-			// 	return (ft_exit_all(info), NULL);
-			// }
 			i++;
 		}
 	}
