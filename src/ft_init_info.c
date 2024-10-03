@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:42:23 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/03 15:37:14 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/03 22:59:38 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,18 @@ t_info	*ft_parse_info(t_info *info, pthread_mutex_t *pm, char *argv[])
 	if (ft_check_arg_vaidity(info, argv, philo_count) == false)
 		return (NULL);
 	info->philos_count = philo_count;
+	info->print_mutex = pm;
 	philos = (t_philo **) malloc((philo_count + 1) * sizeof(t_philo *));
 	if (!philos)
 		return (NULL);
 	ft_debuglog("Initialized philosopher with number: ", YELLOW);
-	i = 0;
-	while (i < philo_count)
+	i = -1;
+	while (++i < philo_count)
 	{
 		if (!ft_adata(&philos[i], info, pm, i))
 			return (NULL);
-		else
-			i++;
 	}
+	write(1, "\n", 1);
 	philos[i] = NULL;
 	info->philos = philos;
 	info->forks = ft_malloc_forks(info);

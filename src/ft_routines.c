@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 15:42:21 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/03 15:51:54 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/03 22:41:26 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	*death_routine(void *v)
 	int		i;
 
 	info = (t_info *)v;
+	pthread_mutex_lock(info->print_mutex);
 	printf("%s", RED);
 	printf("╔╦╗ ╔═╗ ╔═╗ ╔╦╗ ╦ ╦    ╦ ╔═╗    ╦ ╦ ╔═╗ ╔╦╗ ╔═╗ ╦ ╦ ╦ ╔╗╔ ╔═╗\n");
 	printf(" ║║ ║╣  ╠═╣  ║  ╠═╣    ║ ╚═╗    ║║║ ╠═╣  ║  ║   ╠═╣ ║ ║║║ ║ ╦\n");
