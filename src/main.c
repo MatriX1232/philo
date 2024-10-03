@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:28:50 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/03 15:59:17 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/03 22:00:24 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void	ft_free_philo(t_philo *philo)
 	free(philo);
 }
 
-static int	ft_create_run_death(pthread_t *dt, t_info *info)
+static int	ft_create_run_death(pthread_t **dt, t_info *info)
 {
-	dt = (pthread_t *) malloc(1 * sizeof(pthread_t));
+	*dt = (pthread_t *) malloc(1 * sizeof(pthread_t));
 	if (!dt)
 		return (ft_debuglog("Death thread not allocated\n", RED), EXIT_FAILURE);
-	pthread_create(dt, NULL, death_routine, info);
+	pthread_create(*dt, NULL, death_routine, info);
 	return (0);
 }
 
@@ -59,7 +59,7 @@ int	main(int argc, char *argv[])
 
 	pthread_mutex_lock(print_mutex);
 	death_thread = NULL;
-	if (ft_create_run_death(death_thread, info) == EXIT_FAILURE)
+	if (ft_create_run_death(&death_thread, info) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	int	i = 0;
 	while (i < info->philos_count)
