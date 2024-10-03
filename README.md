@@ -5,13 +5,11 @@ This project is an implementation of the classic **Dining Philosophers Problem**
 ## Table of Contents
 
 - [Overview](#overview)
-- [Project Structure](#project-structure)
 - [How It Works](#how-it-works)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Philosophers' Behavior](#philosophers-behavior)
 - [Memory Management](#memory-management)
-- [Credits](#credits)
 
 ## Overview
 
