@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 15:42:21 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/03 22:41:26 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/04 00:13:13 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	*philo_routine(void *v)
 	if (!mix)
 		return (ft_debuglog("MIX not passed to routine function\n", RED), NULL);
 	if (mix->info->philos_count == 1)
-		return (ft_one_philo(mix->philo, mix->info), NULL);
+		return (ft_one_philo(mix->philo, mix->info), free(mix), NULL);
 	philo = mix->philo;
 	while (!is_dead(philo, mix->info))
 	{

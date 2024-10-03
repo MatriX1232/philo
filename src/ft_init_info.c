@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 13:42:23 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/03 22:59:38 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/04 00:02:01 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_info	*ft_parse_info(t_info *info, pthread_mutex_t *pm, char *argv[])
 
 	ft_atoi_args(info, argv, &philo_count);
 	if (ft_check_arg_vaidity(info, argv, philo_count) == false)
-		return (NULL);
+		return (ft_free_info(info, NULL, pm), NULL);
 	info->philos_count = philo_count;
 	info->print_mutex = pm;
 	philos = (t_philo **) malloc((philo_count + 1) * sizeof(t_philo *));

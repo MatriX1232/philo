@@ -17,6 +17,7 @@ FILES = \
 	src/ft_forks.c \
 	src/ft_meals.c \
 	src/ft_routines.c \
+	src/ft_free.c \
 	src/main.c \
 
 OBJS = ${FILES:.c=.o}
