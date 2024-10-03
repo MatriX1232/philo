@@ -6,7 +6,7 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:21:27 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/03 10:07:03 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:52:13 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ long			get_timestamp(void);
 void			ft_usleep(t_philo *philo, long int ms);
 
 //	FT_INIT.c
-t_philo			*ft_malloc_philo(t_philo *philo, int p_idx, pthread_mutex_t *pm);
+t_philo			*ft_malloc_philo(t_philo *philo, int idx, pthread_mutex_t *pm);
 t_info			*ft_malloc_info(t_info *info);
 pthread_mutex_t	**ft_malloc_forks(t_info *info);
 void			ft_assign_forks(t_info *info);
@@ -100,10 +100,17 @@ void			ft_think(t_philo *philo, t_info *info);
 void			ft_sleep(t_philo *philo, t_info *info);
 bool			is_dead(t_philo *philo, t_info *info);
 void			ft_philo_died(t_philo *philo);
-void			ft_print_status(t_philo *philo, t_info *info, char *msg, char *c);
+void			ft_print_status(t_philo *philo, t_info *info, char *m, char *c);
+
+//	FT_ROUTINES.c
+void			*philo_routine(void *v);
+void			*death_routine(void *v);
+void			ft_run_thread(t_philo *philo, t_info *info);
 
 //	FT_DEATH.c
-void			*death_routine(void *v);
+void			ft_exit_all(t_info *info);
+int				ft_check_philo_meals(t_info *info);
+bool			ft_is_philo_dead(t_philo *philo);
 
 //	FT_FORKS.c
 void			ft_take_forks(t_philo *philo, t_mix *mix);

@@ -11,10 +11,12 @@ FILES = \
 	src/ft_putnbr_fd.c \
 	src/ft_time.c \
 	src/ft_philo.c \
-	src/ft_init.c \
+	src/ft_init_info.c \
+	src/ft_init_philo.c \
 	src/ft_death.c \
 	src/ft_forks.c \
 	src/ft_meals.c \
+	src/ft_routines.c \
 	src/main.c \
 
 OBJS = ${FILES:.c=.o}

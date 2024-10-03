@@ -6,52 +6,11 @@
 /*   By: msolinsk <msolinsk@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 13:28:50 by msolinsk          #+#    #+#             */
-/*   Updated: 2024/10/03 12:47:23 by msolinsk         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:59:17 by msolinsk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philo.h"
-
-void	*philosopher_routine(void *v)
-{
-	t_mix	*mix;
-	t_philo	*philo;
-
-	mix = (t_mix *)v;
-	if (!mix)
-		return (ft_debuglog("MIX not passed to routine function\n", RED), NULL);
-	if (mix->info->philos_count == 1)
-	{
-		ft_print_status(mix->philo, mix->info, "is thinking", YELLOW);
-		ft_print_status(mix->philo, mix->info, "has taken a fork", CYAN);
-		ft_usleep(mix->philo, mix->info->time_die);
-		ft_philo_died(mix->philo);
-		return (NULL);
-	}
-	philo = mix->philo;
-	while (!is_dead(philo, mix->info))
-	{
-		if (is_dead(philo, mix->info) || (philo->meal_count > philo->data->times_must_eat && philo->data->times_must_eat != -1))
-			pthread_exit(NULL);
-		ft_think(philo, mix->info);
-		ft_eat(philo, mix);
-		ft_sleep(philo, mix->info);
-	}
-	free(mix);
-	return (NULL);
-}
-
-void	ft_run_thread(t_philo *philo, t_info *info)
-{
-	t_mix	*mix;
-
-	mix = (t_mix *) malloc(1 * sizeof(t_mix));
-	if (!mix)
-		return (ft_debuglog("MIX not allocated\n", RED));
-	mix->philo = philo;
-	mix->info = info;
-	pthread_create(philo->thread, NULL, philosopher_routine, mix);
-}
 
 void	ft_free_philo(t_philo *philo)
 {
@@ -65,19 +24,30 @@ void	ft_free_philo(t_philo *philo)
 	free(philo);
 }
 
+static int	ft_create_run_death(pthread_t *dt, t_info *info)
+{
+	dt = (pthread_t *) malloc(1 * sizeof(pthread_t));
+	if (!dt)
+		return (ft_debuglog("Death thread not allocated\n", RED), EXIT_FAILURE);
+	pthread_create(dt, NULL, death_routine, info);
+	return (0);
+}
+
 int	main(int argc, char *argv[])
 {
+	pthread_t		*death_thread;
+	pthread_mutex_t	*print_mutex;
+	t_info			*info;
+
 	if (argc != 5 && argc != 6)
 		return (ft_debuglog("BAD ARGUMENTS!\n", RED), EXIT_FAILURE);
 
-	pthread_mutex_t	*print_mutex;
 	print_mutex = (pthread_mutex_t *) malloc(1 * sizeof(pthread_mutex_t));
 	if (!print_mutex)
 		return (EXIT_FAILURE);
 	pthread_mutex_init(print_mutex, NULL);
 	ft_debuglog("Print mutex is initialized\n", YELLOW);
 
-	t_info	*info;
 	info = NULL;
 	info = ft_malloc_info(info);
 	if (!info)
@@ -88,12 +58,9 @@ int	main(int argc, char *argv[])
 	info->print_mutex = print_mutex;
 
 	pthread_mutex_lock(print_mutex);
-	pthread_t	*death_thread;
-	death_thread = (pthread_t *) malloc(1 * sizeof(pthread_t));
-	if (!death_thread)
-		return (ft_debuglog("Death thread not allocated\n", RED), EXIT_FAILURE);
-	pthread_create(death_thread, NULL, death_routine, info);
-
+	death_thread = NULL;
+	if (ft_create_run_death(death_thread, info) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	int	i = 0;
 	while (i < info->philos_count)
 	{
