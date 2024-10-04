@@ -13,7 +13,6 @@ This project is an implementation of the classic **Dining Philosophers Problem**
 - [Installation](#installation)
 - [Usage](#usage)
 - [Philosophers' Behavior](#philosophers-behavior)
-- [Memory Management](#memory-management)
 
 ## Overview
 
@@ -71,7 +70,4 @@ Each philosopher follows this routine:
 Thinking: The philosopher thinks about life (or anything else) before trying to eat.
 Eating: The philosopher picks up two forks (mutexes), one from their left and one from their right, and starts eating.
 Sleeping: After eating, the philosopher puts down both forks and goes to sleep.
-If a philosopher fails to pick up both forks within a certain time frame (time to die), they will die, and the simulation will end.
-
-## Memory Management
-The project ensures proper memory allocation and deallocation. Valgrind was used to check for memory leaks and threading issues.
+If a philosopher fails to pick up both forks within a certain time frame (time to die), they will die, and the simulation will end. I'll
